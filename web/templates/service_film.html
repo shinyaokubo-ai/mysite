@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* （他ページと同じ基本スタイル） */
+    .page-header { padding-top: 150px; padding-bottom: 60px; text-align: center; background: #0a0a0a; }
+    .page-title { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; color: #fff; margin-bottom: 10px; font-weight: 900; }
+    .sub-title { color: #c5a059; font-size: 1rem; letter-spacing: 0.1em; }
+    .price-section { padding: 80px 0; }
+    .price-container { max-width: 1000px; margin: 0 auto; }
+    .table-wrap { overflow-x: auto; margin-bottom: 60px; border: 1px solid #333; border-radius: 8px; }
+    .price-table { width: 100%; border-collapse: collapse; min-width: 700px; text-align: center; }
+    .price-table th, .price-table td { padding: 15px; border-bottom: 1px solid #333; font-size: 0.95rem; }
+    .price-table th { background: #111; color: #c5a059; font-weight: bold; border-right: 1px solid #222; }
+    .price-table td { color: #ddd; border-right: 1px solid #222; }
+    .price-table tr:nth-child(even) { background: #0e0e0e; }
+    .menu-name { text-align: left !important; font-weight: bold; color: #fff !important; min-width: 250px; }
+    .category-title { font-size: 1.5rem; color: #fff; margin-bottom: 20px; border-left: 4px solid #c5a059; padding-left: 15px; font-family: 'Noto Sans JP', sans-serif; }
+    .note { font-size: 0.8rem; color: #888; text-align: right; margin-top: 5px; }
+
+    /* フィルム専用のテーブル調整 */
+    .film-single-row td { text-align: center; padding: 20px; font-weight: bold; color: #c5a059; }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <p class="sub-title">SERVICE MENU</p>
+        <h1 class="page-title">Window Film / Repair</h1>
+        <p style="color:#888;">ウィンドウフィルム・リペア料金表</p>
+    </div>
+</div>
+
+<section class="price-section fade-in-up">
+    <div class="container price-container">
+
+        <h2 class="category-title">Window Film</h2>
+        <div class="table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>MENU</th>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="menu-name">スモークフィルム (リア3〜5面)<br><span style="font-size:0.8rem;color:#888;">透過率 3%・5%・15%</span></td>
+                        <td>¥35,000</td><td>¥38,300</td><td>¥42,700</td>
+                        <td>¥46,000<br><span style="font-size:0.8rem;">(1BOX)¥51,500</span></td>
+                        <td>¥54,800</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-wrap">
+            <table class="price-table" style="min-width: 100%;">
+                <tbody>
+                    <tr>
+                        <td class="menu-name" style="width:30%;">スモークフィルム (リア1面)<br><span style="font-size:0.8rem;color:#888;">透過率 3%・5%・15%</span></td>
+                        <td style="text-align:center;">ガラス幅 1.5M以内<br><span style="color:#c5a059; font-weight:bold;">¥12,000</span></td>
+                        <td style="text-align:center;">ガラス幅 1.5M以上<br><span style="color:#c5a059; font-weight:bold;">¥14,200</span></td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">透明断熱フィルム</td>
+                        <td colspan="2" style="text-align:center;">運転席 × 助手席<br><span style="color:#c5a059; font-weight:bold;">¥23,500</span></td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">ウィンドウリペア</td>
+                        <td style="text-align:center;">1箇所<br><span style="color:#c5a059; font-weight:bold;">¥22,000</span></td>
+                        <td style="text-align:center;">2箇所目以降<br><span style="color:#c5a059; font-weight:bold;">¥16,500</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="note">※透明断熱、スモークフィルムをフロントガラスへ施工することはできません。<br>※既に貼ってあるフィルムを剥がして施工する場合、表示価格に10%を加算いたします。</p>
+
+        <h2 class="category-title" style="margin-top:60px;">Option</h2>
+        <div class="table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>MENU</th>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="menu-name">フロントウィンドウ撥水</td>
+                        <td>¥3,300</td><td>¥5,500</td><td>¥5,500</td><td>¥5,500</td><td>¥5,500</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">全面ウィンドウ撥水</td>
+                        <td>¥13,200</td><td>¥17,600</td><td>¥17,600</td><td>¥17,600</td><td>¥22,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align:center; margin-top:60px;">
+            <a href="{% url 'contact' %}" class="btn-main">お問い合わせ・ご予約</a>
+            <br><br>
+            <a href="{% url 'service' %}" style="color:#888; text-decoration:none;">← サービス一覧に戻る</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

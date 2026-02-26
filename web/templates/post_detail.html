@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .detail-container {
+        padding-top: 150px;
+        padding-bottom: 100px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .post-meta {
+        color: #c5a059;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .post-title {
+        font-size: 2.5rem;
+        color: #fff;
+        margin-bottom: 30px;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+
+    /* 動画プレイヤーのサイズ調整 (縦長になりすぎないように制限) */
+    .video-player {
+        width: 100%;
+        max-width: 800px;
+        max-height: 60vh;
+        object-fit: contain;
+        margin: 30px auto;
+        display: block;
+        border-radius: 8px;
+        background: #000;
+        border: 1px solid #222;
+    }
+
+    .post-media img {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 40px;
+    }
+
+    .post-content {
+        color: #ccc;
+        line-height: 2;
+        font-size: 1.05rem;
+        white-space: pre-wrap;
+    }
+
+    .back-btn {
+        display: inline-block;
+        margin-top: 60px;
+        color: #888;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .back-btn:hover {
+        color: #c5a059;
+    }
+
+    @media (max-width: 768px) {
+        .post-title {
+            font-size: 1.8rem;
+        }
+
+        .detail-container {
+            padding: 120px 20px 60px;
+        }
+    }
+</style>
+
+<div class="detail-container">
+    <span class="post-meta">{{ post.category }} | {{ post.created_at|date:"Y.m.d" }}</span>
+    <h1 class="post-title">{{ post.title }}</h1>
+
+    <div class="post-content">
+        {# |safe をつけることで、views.pyで作成した動画タグを正しくHTMLとして表示します #}
+        {{ post.content|safe }}
+    </div>
+
+    <a href="javascript:history.back()" class="back-btn">← 戻る</a>
+</div>
+{% endblock %}

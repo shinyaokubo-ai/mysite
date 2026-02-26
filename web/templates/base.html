@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="ポルシェを中心とした高級車のコーティング・洗車専門店 EXPLORER（エクスプローラー）。最高峰の技術で愛車に輝きを与えます。">
+    <meta name="keywords" content="カーコーティング, 洗車, ポルシェ, 埼玉, 蓮田市, 施工事例">
+    
+    <meta property="og:title" content="EXPLORER | コーティング・洗車">
+    <meta property="og:description" content="希少車や高級車に特化した最高級のコーティングサービスをご提案します。">
+    <meta property="og:image" content="{% static 'images/logo2.jpg' %}">
+    <meta property="og:type" content="website">
+    <title>{% block title %}EXPLORER | コーティング・洗車{% endblock %}</title>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <title>EXPLORER - Car Coating Pro Shop</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;700;900&family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* サイト全体のデフォルト設定（本文用） */
+    body {
+        font-family: 'Noto Sans JP', 'Montserrat', sans-serif;
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+    }
+
+    /* タイトル・見出し・ナビゲーションをすべてCinzelに統一 */
+    h1, h2, h3, h4, h5, h6, 
+    .section-title, .service-title, .card-title, 
+    .nav-links a, .navbar-brand {
+        font-family: 'Cinzel', serif !important;
+        letter-spacing: 0.1em;
+    }
+
+        a { text-decoration: none; transition: 0.3s; }
+        ul { list-style: none; padding: 0; margin: 0; }
+        
+        /* コンテナ */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- ヘッダー --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(10px);
+            border-bottom: 1px solid #222; padding: 15px 0;
+        }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* ロゴ（画像に戻しました） */
+        .logo img { height: 40px; width: auto; vertical-align: middle; }
+
+        /* ナビゲーション（CONTACTも統一） */
+        nav ul { display: flex; gap: 30px; }
+        nav a { color: #aaa; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; font-family: 'Montserrat', sans-serif; }
+        nav a:hover { color: #fff; }
+        
+        /* ボタン類 */
+        .btn-main {
+            display: inline-block; border: 1px solid #fff; padding: 15px 50px; color: #fff;
+            font-family: 'Montserrat', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em;
+        }
+        .btn-main:hover { background: #fff; color: #000; }
+
+        /* セクション見出し */
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .en-title { display: block; font-family: 'Montserrat', sans-serif; color: #c5a059; font-size: 0.9rem; letter-spacing: 0.2em; margin-bottom: 10px; text-transform: uppercase; }
+        .jp-title { font-size: 2rem; font-weight: 700; margin: 0; }
+
+        /* --- フッター --- */
+        footer { background: #0a0a0a; padding: 80px 0 30px; border-top: 1px solid #222; margin-top: 0; }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+        .footer-info h2 { font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 20px; }
+        .footer-links ul { display: flex; gap: 20px; flex-wrap: wrap; }
+        .footer-links a { color: #888; font-size: 0.9rem; }
+        .footer-links a:hover { color: #c5a059; }
+        .copyright { text-align: center; font-size: 0.75rem; color: #444; border-top: 1px solid #111; padding-top: 30px; font-family: 'Montserrat', sans-serif; }
+
+        /* スマホ対応 */
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; gap: 15px; }
+            nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .footer-links ul { justify-content: center; }
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="{% url 'index' %}" class="logo">
+                <img src="{% static 'images/logo2.jpg' %}" alt="EXPLORER">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}">HOME</a></li>
+                    <li><a href="{% url 'service' %}">SERVICE</a></li>
+                    <li><a href="{% url 'works' %}">WORKS</a></li>
+                    <li><a href="{% url 'blog' %}">BLOG</a></li>
+                    <li><a href="{% url 'company' %}">COMPANY</a></li>
+                    <li><a href="{% url 'contact' %}">CONTACT</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <h2>EXPLORER</h2>
+                    <p>埼玉県蓮田市西新宿2-137<br>TEL: 048-884-8580</p>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'service' %}">Service</a></li>
+                        <li><a href="{% url 'works' %}">Works</a></li>
+                        <li><a href="{% url 'blog' %}">Blog</a></li>
+                        <li><a href="{% url 'company' %}">Company</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="copyright">© 2026 EXPLORER Car Coating. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

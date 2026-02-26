@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    /* --- 全体の設定 --- */
+    section { margin-bottom: 160px; }
+
+    /* --- メインビジュアル --- */
+    
+/* --- メインビジュアル --- */
+    .hero-section {
+        position: relative; width: 100%; height: 100vh;
+        display: flex; align-items: center; justify-content: center;
+        /* ▼ ここを新しい画像（hero_bg.jpg）に変更しました ▼ */
+        background: url('{% static "images/hero_bg.png" %}') no-repeat center center/cover;
+        margin-bottom: 160px;
+    }
+    .hero-overlay {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        /* ▼ 文字を読みやすくするため、少しだけ暗めのフィルター（0.6）に変更 ▼ */
+        background: rgba(0, 0, 0, 0.6); z-index: 1;
+        pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; text-align: center; color: #fff; }
+    .hero-title {
+        /* ▼ 書体をCinzelに変更、サイズも少し調整 ▼ */
+        font-family: 'Cinzel', serif; font-size: 5.5rem; font-weight: 900;
+        letter-spacing: 0.1em; margin: 0; text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    .hero-subtitle {
+        font-family: 'Montserrat', sans-serif; font-size: 1.2rem; color: #c5a059;
+        margin-top: 15px; letter-spacing: 0.3em; text-transform: uppercase;
+    }
+
+
+
+
+
+
+    /* --- SERVICE --- */
+    .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px; }
+    .service-card {
+        display: block; background: #111; border: 1px solid #222; padding: 50px 30px;
+        text-align: left; transition: 0.3s; text-decoration: none; height: 100%;
+        display: flex; flex-direction: column;
+    }
+    .service-card:hover { border-color: #c5a059; transform: translateY(-5px); background: #161616; }
+    .service-icon { font-size: 2.5rem; color: #c5a059; margin-bottom: 25px; display: block; }
+    .service-title {
+        font-size: 1.2rem; margin-bottom: 20px; color: #fff;
+        font-family: 'Noto Sans JP', sans-serif; font-weight: 700; line-height: 1.5;
+    }
+    .service-desc { font-size: 0.9rem; color: #aaa; line-height: 1.8; margin-bottom: 0; }
+
+    /* --- WORKS --- */
+    .works-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 40px; margin-top: 60px;
+    }
+    .work-card {
+        display: block; background: #111; text-decoration: none; border-radius: 8px; overflow: hidden;
+        transition: 0.3s; border: 1px solid #222;
+    }
+    .work-card:hover { transform: translateY(-5px); border-color: #c5a059; }
+    .work-img-frame { width: 100%; aspect-ratio: 4/3; position: relative; overflow: hidden; }
+    .work-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .work-card:hover .work-img { transform: scale(1.1); }
+    .work-tag-label {
+        position: absolute; bottom: 10px; left: 10px;
+        background: rgba(0,0,0,0.7); color: #c5a059; border: 1px solid #c5a059;
+        font-size: 0.7rem; padding: 3px 10px; z-index: 2;
+    }
+    .work-info { padding: 20px; text-align: left; }
+    .work-title { color: #fff; font-size: 1.1rem; font-weight: bold; margin: 0; font-family: 'Noto Sans JP', sans-serif; }
+
+    /* --- BLOG --- */
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 60px; }
+    .blog-card { background: #111; border-radius: 8px; overflow: hidden; }
+    .blog-img-wrap { height: 200px; overflow: hidden; }
+    .blog-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .blog-body { padding: 20px; }
+    .blog-date { color: #888; font-size: 0.8rem; display: block; margin-bottom: 10px; }
+    .blog-title { font-size: 1.1rem; color: #fff; margin: 0; }
+
+    /* --- CONTACT --- */
+    .contact-hero {
+        position: relative;
+        padding: 140px 0;
+        text-align: center;
+        background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2304&auto=format&fit=crop') no-repeat center center/cover;
+        margin-bottom: 0;
+    }
+    .contact-overlay {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(255, 255, 255, 0.1); 
+        z-index: 1;
+        pointer-events: none; /* クリックを邪魔しない設定 */
+    }
+    .contact-box {
+        position: relative; z-index: 2;
+        border: 2px solid #c5a059; padding: 60px;
+        max-width: 800px; margin: 0 auto;
+        background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
+    }
+    .contact-title {
+        font-family: 'Noto Sans JP', sans-serif; font-size: 2.5rem; color: #fff; margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+    .contact-text { color: #ddd; margin-bottom: 40px; line-height: 2; font-size: 1.1rem; }
+    .contact-btn {
+        display: inline-block; padding: 18px 60px;
+        background: #c5a059; color: #000; font-weight: bold;
+        text-decoration: none; font-family: 'Noto Sans JP', sans-serif;
+        transition: 0.3s; letter-spacing: 0.1em;
+        box-shadow: 0 0 15px rgba(197, 160, 89, 0.5);
+    }
+    .contact-btn:hover { background: #fff; transform: translateY(-3px); }
+
+    /* ▼▼▼ スマホ用設定（ブログ2列化を含む最新版） ▼▼▼ */
+    @media (max-width: 768px) {
+        .hero-title { font-size: 3rem; }
+        
+        /* サービスは1列 */
+        .service-grid { grid-template-columns: 1fr; }
+        
+        /* 施工事例は2列 */
+        .works-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+
+        /* ブログも2列にして見やすくする！ */
+        .blog-grid { 
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px; 
+        }
+        
+        /* 画像の高さをコンパクトに調整 */
+        .blog-img-wrap { height: 120px; }
+        
+        /* 文字サイズ調整 */
+        .blog-title { font-size: 0.85rem; line-height: 1.4; }
+        .blog-date { font-size: 0.7rem; }
+        .blog-body { padding: 15px; }
+    }
+
+    /* --- サービス内容の背景透過カード用 --- */
+    .service-bg-card {
+        position: relative;
+        padding: 50px 20px;
+        border: 1px solid #333;
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+    .service-bg-img {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 1;
+    }
+    .service-bg-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.75); /* TOPページと同じように暗めの透かしを入れる */
+        z-index: 2;
+    }
+    .service-bg-content {
+        position: relative;
+        z-index: 3; /* 文字を一番手前に持ってくる */
+    }
+
+
+
+
+
+
+
+</style>
+
+<section id="home" class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-in">
+        <h1 class="hero-title">EXPLORER</h1>
+        <p class="hero-subtitle">Restore your car's shine</p>
+    </div>
+</section>
+
+<section id="service">
+    <div class="container">
+        <div class="section-header fade-in-up" style="text-align: center; margin-bottom: 40px;">
+            <h2 class="en-title" style="font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; font-size: 2.5rem; margin-bottom: 5px;">Service Menu</h2>
+            <span class="jp-title" style="color: #c5a059; letter-spacing: 0.2em; font-size: 0.9rem;">施工メニュー</span>
+        </div>
+
+        <div class="service-grid fade-in-up">
+            <a href="{% url 'service' %}" class="service-card" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({% static 'images/service_coating.jpg' %}) no-repeat center center/cover;">
+                <span class="service-icon"></span>
+                <h3 class="service-title" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.8rem; letter-spacing: 0.1em; color: #fff; text-shadow: 0 5px 15px rgba(0,0,0,0.8); text-transform: uppercase; min-height: 80px; display: flex; align-items: center; justify-content: center; text-align: center;">コーティング</h3>
+                <p class="service-desc" style="color: #eee;">厳選された薬剤を使用し、愛車の塗装を強力に保護。<br>新車のような輝きを持続させます。</p>
+            </a>
+            
+            <a href="{% url 'service' %}" class="service-card" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({% static 'images/service_wash.avif' %}) no-repeat center center/cover;">
+                <span class="service-icon"></span>
+                <h3 class="service-title" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.8rem; letter-spacing: 0.1em; color: #fff; text-shadow: 0 5px 15px rgba(0,0,0,0.8); text-transform: uppercase; min-height: 80px; display: flex; align-items: center; justify-content: center; text-align: center;">洗車</h3>
+                <p class="service-desc" style="color: #eee;">プロによる極上の手洗い洗車。<br>塗装を傷めずに汚れを徹底的に落とします。</p>
+            </a>
+            
+            <a href="{% url 'service' %}" class="service-card" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({% static 'images/service_film.avif' %}) no-repeat center center/cover;">
+                <span class="service-icon"></span>
+                <h3 class="service-title" style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.8rem; letter-spacing: 0.1em; color: #fff; text-shadow: 0 5px 15px rgba(0,0,0,0.8); text-transform: uppercase; min-height: 80px; display: flex; align-items: center; justify-content: center; text-align: center;">ウィンドウフィルム施工</h3>
+                <p class="service-desc" style="color: #eee;">断熱・遮熱効果で車内を快適に。<br>紫外線カットやプライバシー保護にも最適です。</p>
+            </a>
+        </div>
+    </div>
+</section>
+<section id="works">
+    <div class="container">
+        <div class="section-header fade-in-up">
+            <span class="en-title">Works</span>
+            <h2 class="jp-title">施工事例</h2>
+        </div>
+        <div class="works-grid fade-in-up">
+            {% for post in works_posts %}
+                <a href="{% url 'post_detail' post.id %}" class="work-card">
+                    <div class="work-img-frame">
+                        {% if post.thumbnail %}
+                            <img src="{{ post.thumbnail.url }}" class="work-img" alt="{{ post.title }}">
+                        {% else %}
+                            <img src="{% static 'images/logo2.jpg' %}" class="work-img" alt="No Image">
+                        {% endif %}
+                        {% if post.tag %}<span class="work-tag-label">{{ post.tag }}</span>{% endif %}
+                    </div>
+                    <div class="work-info">
+                        <h3 class="work-title">{{ post.title }}</h3>
+                    </div>
+                </a>
+            {% empty %}
+                <p style="color:#666; text-align:center; grid-column:1/-1;">現在、施工実績は登録されていません。</p>
+            {% endfor %}
+        </div>
+        <div style="text-align:center; margin-top:60px;">
+            <a href="{% url 'works' %}" class="btn-main">施工事例一覧を見る</a>
+        </div>
+    </div>
+</section>
+
+<section id="blog">
+    <div class="container">
+        <div class="section-header fade-in-up">
+            <span class="en-title">Journal & Info</span>
+            <h2 class="jp-title">ブログ・お知らせ</h2>
+        </div>
+        <div class="blog-grid fade-in-up">
+            {% for post in blog_posts %}
+                <article class="blog-card">
+                    <a href="{% url 'post_detail' post.id %}" style="text-decoration:none; color:inherit;">
+                        <div class="blog-img-wrap">
+                            {% if post.thumbnail %}
+                                <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
+                            {% else %}
+                                <img src="{% static 'images/logo2.jpg' %}" alt="No Image">
+                            {% endif %}
+                            </div>
+                        <div class="blog-body">
+                            <span class="blog-date">{{ post.created_at|date:"Y.m.d" }}</span>
+                            <h3 class="blog-title">{{ post.title }}</h3>
+                        </div>
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+        <div style="text-align:center; margin-top:60px;">
+            <a href="{% url 'blog' %}" class="btn-main">ブログ一覧を見る</a>
+        </div>
+    </div>
+</section>
+
+<section class="contact-hero">
+    <div class="contact-overlay"></div>
+    <div class="container fade-in-up">
+        <div class="contact-box">
+            <h2 class="contact-title">CONTACT</h2>
+            <p class="contact-text">
+                コーティングや研磨に関するご相談、お見積もりなど、<br>
+                まずはお気軽にお問い合わせください。
+            </p>
+            <a href="{% url 'contact' %}" class="contact-btn">お問い合わせフォームへ</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

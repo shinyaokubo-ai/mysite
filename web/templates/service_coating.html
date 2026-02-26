@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .page-header { padding-top: 150px; padding-bottom: 60px; text-align: center; background: #0a0a0a; }
+    .page-title { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; color: #fff; margin-bottom: 10px; font-weight: 900; }
+    .sub-title { color: #c5a059; font-size: 1rem; letter-spacing: 0.1em; }
+    
+    .price-section { padding: 80px 0; }
+    .price-container { max-width: 1000px; margin: 0 auto; }
+    
+    /* 料金表デザイン */
+    .table-wrap { overflow-x: auto; margin-bottom: 60px; border: 1px solid #333; border-radius: 8px; }
+    .price-table { width: 100%; border-collapse: collapse; min-width: 700px; text-align: center; }
+    .price-table th, .price-table td { padding: 15px; border-bottom: 1px solid #333; font-size: 0.95rem; }
+    .price-table th { background: #111; color: #c5a059; font-weight: bold; border-right: 1px solid #222; }
+    .price-table td { color: #ddd; border-right: 1px solid #222; }
+    .price-table tr:last-child td { border-bottom: none; }
+    .price-table tr:nth-child(even) { background: #0e0e0e; }
+    
+    .menu-name { text-align: left !important; font-weight: bold; color: #fff !important; min-width: 200px; }
+    .highlight { color: #c5a059; font-weight: bold; }
+
+    .category-title { font-size: 1.5rem; color: #fff; margin-bottom: 20px; border-left: 4px solid #c5a059; padding-left: 15px; font-family: 'Noto Sans JP', sans-serif; }
+    .note { font-size: 0.8rem; color: #888; text-align: right; margin-top: 5px; }
+    
+    .size-guide { background: #111; padding: 30px; border-radius: 8px; margin-bottom: 60px; border: 1px solid #333; }
+    .size-guide h3 { color: #c5a059; margin-bottom: 20px; font-size: 1.2rem; }
+    .size-list { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around; list-style: none; padding: 0; }
+    .size-item { font-size: 0.9rem; color: #ccc; }
+    .size-item span { color: #fff; font-weight: bold; font-size: 1.1rem; margin-right: 5px; }
+
+    @media (max-width: 768px) {
+        .page-title { font-size: 2rem; }
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <p class="sub-title">SERVICE MENU</p>
+        <h1 class="page-title">Body Coating</h1>
+        <p style="color:#888;">ボディコーティング料金表</p>
+    </div>
+</div>
+
+<section class="price-section fade-in-up">
+    <div class="container price-container">
+
+        <h2 class="category-title">Exterior Detail Full Package</h2>
+        <div class="table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>MENU</th>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="menu-name">Hi-MOHS [THE EDGE]</td>
+                        <td>¥168,300</td><td>¥189,200</td><td>¥205,700</td><td>¥222,200</td><td>¥248,600~</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">Hi-MOHS [THE GLOW]</td>
+                        <td>¥168,300</td><td>¥189,200</td><td>¥205,700</td><td>¥222,200</td><td>¥248,600~</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">GUARD GLAZE</td>
+                        <td>¥127,050</td><td>¥141,900</td><td>¥150,150</td><td>¥158,400</td><td>¥181,500~</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">CLASS H</td>
+                        <td>¥127,050</td><td>¥141,900</td><td>¥150,150</td><td>¥158,400</td><td>¥181,500~</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="category-title">Exterior Enhancement Detail</h2>
+        <div class="table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>MENU</th>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="menu-name">TAIL BACK -Ceramic-<br><span style="font-size:0.8rem; font-weight:normal; color:#888;">(5-6ヶ月耐久)</span></td>
+                        <td>¥46,200</td><td>¥52,800</td><td>¥56,100</td><td>¥58,300</td><td>¥66,000~</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">TAIL BACK -Graphene-<br><span style="font-size:0.8rem; font-weight:normal; color:#888;">(2-3ヶ月耐久)</span></td>
+                        <td>¥27,720</td><td>¥31,680</td><td>¥33,660</td><td>¥34,980</td><td>¥39,600~</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="note">※車両保管環境などによって耐久値は変動します</p>
+
+        <div class="size-guide">
+            <h3>Body Size Guide (車検証を元に算出)</h3>
+            <p style="font-size:0.8rem; color:#888; margin-bottom:15px;">サイズ計算式：全長 × 全幅 × 全高</p>
+            <ul class="size-list">
+                <li class="size-item"><span>S</span> 8.5㎥ - 10.5㎥</li>
+                <li class="size-item"><span>M</span> 10.5㎥ - 12.2㎥</li>
+                <li class="size-item"><span>L</span> 12.2㎥ - 14.0㎥</li>
+                <li class="size-item"><span>XL</span> 14.0㎥ - 17.7㎥</li>
+                <li class="size-item"><span>XXL</span> 17.7㎥ ~</li>
+            </ul>
+            <p style="text-align:right; font-size:0.8rem; color:#666; margin-top:10px;">※17.7㎥以上の場合はご相談となります</p>
+        </div>
+
+        <h2 class="category-title">Option</h2>
+        <div class="table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>MENU</th>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="menu-name">ボディメンテナンス</td>
+                        <td>¥33,000</td><td>¥33,000</td><td>¥35,000</td><td>¥40,000</td><td>¥45,000</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">フロントウィンドウ撥水</td>
+                        <td>¥3,300</td><td>¥5,500</td><td>¥5,500</td><td>¥5,500</td><td>¥5,500</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">全面ウィンドウ撥水</td>
+                        <td>¥13,200</td><td>¥17,600</td><td>¥17,600</td><td>¥17,600</td><td>¥22,000</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">ルームクリーニング</td>
+                        <td>¥15,000</td><td>¥15,000</td><td>¥17,000</td><td>¥17,500</td><td>¥17,500</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">ホイールコーティング</td>
+                        <td colspan="2">〜19inch ¥16,500</td>
+                        <td colspan="3">20inch〜 ¥22,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <p class="note">価格は全て税込みです。<br>コーティングメンテナンスは年一回の施工を推奨します。</p>
+
+        <div style="text-align:center; margin-top:60px;">
+            <a href="{% url 'contact' %}" class="btn-main">お問い合わせ・ご予約</a>
+            <br><br>
+            <a href="{% url 'service' %}" style="color:#888; text-decoration:none;">← サービス一覧に戻る</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

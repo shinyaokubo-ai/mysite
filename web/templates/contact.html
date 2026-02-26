@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    /* --- ページヘッダー --- */
+    .page-header {
+        padding-top: 150px; padding-bottom: 80px; text-align: center;
+        background: linear-gradient(to bottom, #050505, #0a0a0a);
+    }
+    .page-title {
+        font-family: 'Montserrat', sans-serif; font-size: 2.5rem;
+        font-weight: 900; letter-spacing: 0.2em; margin-bottom: 20px; color: #fff;
+    }
+    .page-desc {
+        color: #888; font-size: 0.9rem; line-height: 2; max-width: 800px;
+        margin: 0 auto; font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    /* --- フォームセクション --- */
+    .form-section {
+        padding: 60px 0 120px;
+        background: #050505;
+    }
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px 40px;
+        background: #111;
+        border: 1px solid #222;
+        border-top: 2px solid #c5a059;
+    }
+
+    /* --- 入力欄のデザイン（見やすく改良版） --- */
+    .form-group { margin-bottom: 30px; }
+    
+    .form-label {
+        display: block; margin-bottom: 10px; color: #c5a059;
+        font-family: 'Noto Sans JP', sans-serif; font-weight: bold; font-size: 0.95rem;
+    }
+    .form-label span {
+        font-size: 0.75rem; color: #fff; background: #333;
+        padding: 2px 8px; margin-left: 10px; border-radius: 2px;
+    }
+    .form-label span.optional { background: #222; color: #888; }
+
+    /* 入力ボックス本体 */
+    .form-control {
+        width: 100%;
+        padding: 15px;
+        /* 背景を少しだけ明るい黒にして、枠線との境界をはっきりさせる */
+        background-color: #1a1a1a !important; 
+        border: 1px solid #444;
+        /* 文字色を「真っ白」に強制 */
+        color: #ffffff !important;
+        font-family: 'Noto Sans JP', sans-serif;
+        font-size: 1.1rem; /* 文字を少し大きく */
+        border-radius: 4px;
+        transition: 0.3s;
+        /* ブラウザのデフォルトスタイルを打ち消す */
+        appearance: none; 
+        -webkit-appearance: none;
+    }
+
+    /* フォーカス時（入力しようとした時） */
+    .form-control:focus {
+        outline: none;
+        border-color: #c5a059; /* 金色の枠線 */
+        background-color: #000 !important; /* 背景を黒く引き締める */
+        color: #fff !important;
+        box-shadow: 0 0 10px rgba(197, 160, 89, 0.3); /* 金色の光 */
+    }
+
+    /* プレースホルダー（例：〜〜の部分）の色調整 */
+    .form-control::placeholder {
+        color: #666; /* 読みやすいグレー */
+        opacity: 1;
+    }
+
+    /* オートフィル（自動入力）対策：背景が水色になるのを防ぐ */
+    .form-control:-webkit-autofill,
+    .form-control:-webkit-autofill:hover,
+    .form-control:-webkit-autofill:focus,
+    .form-control:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0px 1000px #1a1a1a inset !important;
+        -webkit-text-fill-color: #fff !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+
+    textarea.form-control { height: 200px; resize: none; }
+
+    /* 送信ボタン */
+    .btn-submit-area { text-align: center; margin-top: 50px; }
+    .btn-submit {
+        display: inline-block; padding: 18px 80px;
+        background: #c5a059; color: #000; font-weight: bold; font-size: 1.1rem;
+        border: none; cursor: pointer; transition: 0.3s;
+        font-family: 'Montserrat', sans-serif; letter-spacing: 0.1em;
+    }
+    .btn-submit:hover {
+        background: #fff; transform: translateY(-3px);
+        box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+    }
+
+    /* 店舗情報 */
+    .shop-info {
+        margin-top: 80px; text-align: center; border-top: 1px solid #222; padding-top: 60px;
+    }
+    .shop-info h3 { color: #fff; font-size: 1.5rem; margin-bottom: 30px; }
+    .info-grid {
+        display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 600px; margin: 0 auto;
+    }
+    .info-item { text-align: left; }
+    .info-label { color: #c5a059; font-size: 0.8rem; display: block; margin-bottom: 5px; }
+    .info-value { color: #ddd; font-size: 1rem; }
+
+    @media (max-width: 768px) {
+        .form-container { padding: 40px 20px; border-left: none; border-right: none; }
+        .info-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
+<section class="page-header fade-in">
+    <div class="page-header" style="padding: 80px 0 60px; text-align: center; border-bottom: 1px solid #333; margin-bottom: 50px;">
+    <h1 style="font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; font-size: 3.5rem; color: #c5a059; margin: 0;">
+        CONTACT
+    </h1>
+    <p style="color: #f8f9fa; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.15em; margin-top: 20px;">
+        お問い合わせ
+    </p>
+</div>
+</section>
+
+<section class="form-section fade-in-up">
+    <div class="container">
+        <div class="form-container">
+            
+            {% if success %}
+                <div style="text-align:center; padding: 50px 0;">
+                    <h2 style="color:#c5a059; margin-bottom:20px;">TRANSMISSION COMPLETE</h2>
+                    <p style="color:#fff; font-size:1.1rem;">
+                        お問い合わせありがとうございます。<br>
+                        内容を確認次第、担当者よりご連絡させていただきます。
+                    </p>
+                    <a href="{% url 'index' %}" class="btn-submit" style="margin-top:30px; text-decoration:none;">トップページへ戻る</a>
+                </div>
+            
+            {% else %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label class="form-label">お名前<span>必須</span></label>
+                        <input type="text" name="name" class="form-control" placeholder="例：山田 太郎">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">メールアドレス<span>必須</span></label>
+                        <input type="email" name="email" class="form-control" placeholder="例：info@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">電話番号<span>任意</span></label>
+                        <input type="tel" name="phone" class="form-control" placeholder="例：090-1234-5678">
+                    </div>
+
+                    <div class="row" style="display:flex; gap:20px; flex-wrap:wrap;">
+                        <div class="form-group" style="flex:1; min-width:200px;">
+                            <label class="form-label">車種名<span>必須</span></label>
+                            <input type="text" name="car_model" class="form-control" placeholder="例：ポルシェ 911 カレラ">
+                        </div>
+                        <div class="form-group" style="flex:1; min-width:200px;">
+                            <label class="form-label">年式 / 色<span>任意</span></label>
+                            <input type="text" name="car_color" class="form-control" placeholder="例：2023年式 / 黒">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">ご相談内容<span>必須</span></label>
+                        <textarea name="message" class="form-control" placeholder="ご希望のメニューや、現在のお車の状態（キズや汚れなど）をご記入ください。"></textarea>
+                    </div>
+
+                    <div class="btn-submit-area">
+                        <button type="submit" class="btn-submit">送信する</button>
+                    </div>
+                </form>
+            {% endif %}
+
+            <div class="shop-info">
+                <h3>EXPLORER</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">ADDRESS</span>
+                        <span class="info-value">〒000-0000<br>東京都〇〇区〇〇 1-2-3</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">TEL / OPEN</span>
+                        <span class="info-value">03-0000-0000<br>10:00 - 19:00 (水曜定休)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

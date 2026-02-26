@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* （コーティングページと同じCSSを流用） */
+    .page-header { padding-top: 150px; padding-bottom: 60px; text-align: center; background: #0a0a0a; }
+    .page-title { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; color: #fff; margin-bottom: 10px; font-weight: 900; }
+    .sub-title { color: #c5a059; font-size: 1rem; letter-spacing: 0.1em; }
+    .price-section { padding: 80px 0; }
+    .price-container { max-width: 1000px; margin: 0 auto; }
+    .table-wrap { overflow-x: auto; margin-bottom: 60px; border: 1px solid #333; border-radius: 8px; }
+    .price-table { width: 100%; border-collapse: collapse; min-width: 700px; text-align: center; }
+    .price-table th, .price-table td { padding: 15px; border-bottom: 1px solid #333; font-size: 0.95rem; }
+    .price-table th { background: #111; color: #c5a059; font-weight: bold; border-right: 1px solid #222; }
+    .price-table td { color: #ddd; border-right: 1px solid #222; }
+    .price-table tr:nth-child(even) { background: #0e0e0e; }
+    .menu-name { text-align: left !important; font-weight: bold; color: #fff !important; min-width: 200px; }
+    .category-title { font-size: 1.5rem; color: #fff; margin-bottom: 20px; border-left: 4px solid #c5a059; padding-left: 15px; font-family: 'Noto Sans JP', sans-serif; }
+    .note { font-size: 0.8rem; color: #888; text-align: right; margin-top: 5px; }
+
+    @media (max-width: 768px) { .page-title { font-size: 2rem; } }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <p class="sub-title">SERVICE MENU</p>
+        <h1 class="page-title">Body Wash</h1>
+        <p style="color:#888;">洗車料金表</p>
+    </div>
+</div>
+
+<section class="price-section fade-in-up">
+    <div class="container price-container">
+
+        <h2 class="category-title">Wash Menu</h2>
+        <div class="table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>MENU</th>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="menu-name">Wash</td>
+                        <td>¥2,900</td><td>¥4,000</td><td>¥4,600</td><td>¥5,000</td><td>¥7,500</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">Wash +</td>
+                        <td>¥3,400</td><td>¥4,500</td><td>¥5,100</td><td>¥5,500</td><td>¥8,250</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">Deep Wash</td>
+                        <td>¥6,100</td><td>¥8,300</td><td>¥9,500</td><td>¥10,300</td><td>¥15,450</td>
+                    </tr>
+                    <tr style="border-top:2px solid #333;">
+                        <td class="menu-name">+ TAIL BACK -Ceramic-<br><span style="font-size:0.8rem;color:#888;">(5-6ヶ月耐久)</span></td>
+                        <td>¥10,000</td><td>¥12,000</td><td>¥14,000</td><td>¥16,000</td><td>¥18,000</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">+ TAIL BACK -Graphene-<br><span style="font-size:0.8rem;color:#888;">(2-3ヶ月耐久)</span></td>
+                        <td>¥5,000</td><td>¥7,000</td><td>¥9,000</td><td>¥11,000</td><td>¥13,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <p class="note">※価格は全て税込みです</p>
+
+        <h2 class="category-title">Option</h2>
+        <div class="table-wrap">
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>MENU</th>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="menu-name">ボディメンテナンス</td>
+                        <td>¥33,000</td><td>¥33,000</td><td>¥35,000</td><td>¥40,000</td><td>¥45,000</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">フロントウィンドウ撥水</td>
+                        <td>¥3,300</td><td>¥5,500</td><td>¥5,500</td><td>¥5,500</td><td>¥5,500</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">全面ウィンドウ撥水</td>
+                        <td>¥13,200</td><td>¥17,600</td><td>¥17,600</td><td>¥17,600</td><td>¥22,000</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">ルームクリーニング</td>
+                        <td>¥15,000</td><td>¥15,000</td><td>¥17,000</td><td>¥17,500</td><td>¥17,500</td>
+                    </tr>
+                    <tr>
+                        <td class="menu-name">ホイールコーティング</td>
+                        <td colspan="2">〜19inch ¥16,500</td>
+                        <td colspan="3">20inch〜 ¥22,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align:center; margin-top:60px;">
+            <a href="{% url 'contact' %}" class="btn-main">お問い合わせ・ご予約</a>
+            <br><br>
+            <a href="{% url 'service' %}" style="color:#888; text-decoration:none;">← サービス一覧に戻る</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

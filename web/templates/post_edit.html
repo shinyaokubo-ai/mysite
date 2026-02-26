@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .edit-container {
+        padding-top: 150px;
+        padding-bottom: 100px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .edit-card {
+        background: #111;
+        border: 1px solid #222;
+        padding: 40px;
+        border-radius: 8px;
+    }
+
+    .edit-title {
+        color: #fff;
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        display: block;
+        color: #c5a059;
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        background: #000;
+        border: 1px solid #333;
+        color: #fff;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: 0.3s;
+    }
+
+    .form-control:focus {
+        border-color: #c5a059;
+        outline: none;
+    }
+
+    .media-preview {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #333;
+        border-radius: 4px;
+        overflow: hidden;
+        max-width: 300px;
+    }
+
+    .media-preview img {
+        width: 100%;
+        display: block;
+    }
+
+    .media-preview video {
+        width: 100%;
+        display: block;
+    }
+
+    .current-label {
+        font-size: 0.8rem;
+        color: #888;
+        margin-bottom: 5px;
+    }
+
+    .btn-save {
+        background: #c5a059;
+        color: #000;
+        border: none;
+        padding: 15px 40px;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: 0.3s;
+        width: 100%;
+        font-size: 1rem;
+        margin-top: 20px;
+    }
+
+    .btn-save:hover {
+        background: #fff;
+        transform: translateY(-2px);
+    }
+
+    .btn-back {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #888;
+        text-decoration: none;
+    }
+
+    .btn-back:hover {
+        color: #fff;
+    }
+</style>
+
+<div class="edit-container">
+    <div class="edit-card">
+        <h2 class="edit-title">{% if post %}記事を編集{% else %}新規投稿{% endif %}</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>タイトル</label>
+                <input type="text" name="title" class="form-control" value="{{ post.title|default:'' }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>カテゴリー</label>
+                <select name="category" class="form-control">
+                    <option value="Blog" {% if post.category == 'Blog' %}selected{% endif %}>Blog（ブログ）</option>
+                    <option value="Works" {% if post.category == 'Works' %}selected{% endif %}>Works（施工事例）</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>サムネイル画像 (一覧用・静止画推奨)</label>
+                {% if post.thumbnail %}
+                <div class="current-label">現在のサムネイル:</div>
+                <div class="media-preview">
+                    <img src="{{ post.thumbnail.url }}">
+                </div>
+                {% endif %}
+                <input type="file" name="thumbnail" class="form-control" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label>メインメディア (詳細用・動画または画像)</label>
+                {% if post.image %}
+                <div class="current-label">現在のメディア:</div>
+                <div class="media-preview">
+                    {% with url=post.image.url|lower %}
+                    {% if ".mp4" in url or ".mov" in url or ".webm" in url %}
+                    <video src="{{ post.image.url }}" muted loop autoplay playsinline style="width:100%;"></video>
+                    <p style="font-size:0.7rem; color:#c5a059; padding:5px;">※動画ファイルが設定されています</p>
+                    {% else %}
+                    <img src="{{ post.image.url }}">
+                    {% endif %}
+                    {% endwith %}
+                </div>
+                {% endif %}
+                <input type="file" name="image" class="form-control">
+                <p style="font-size:0.8rem; color:#666; margin-top:5px;">※本文内の好きな場所に配置するには、本文中に [video] と入力してください。</p>
+            </div>
+
+            <div class="form-group">
+                <label>タグ（任意 / カンマ区切り）</label>
+                <input type="text" name="tag" class="form-control" value="{{ post.tag|default:'' }}"
+                    placeholder="例: ガラスコーティング, ポルシェ">
+            </div>
+
+            <div class="form-group">
+                <label>本文</label>
+                <textarea name="content" class="form-control" rows="10"
+                    required>{{ post.content|default:'' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>公開ステータス</label>
+                <select name="status" class="form-control">
+                    <option value="Published" {% if post.status == 'Published' %}selected{% endif %}>公開</option>
+                    <option value="Draft" {% if post.status == 'Draft' %}selected{% endif %}>下書き</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-save">記事を保存する</button>
+            <a href="{% url 'dashboard' %}" class="btn-back">キャンセルして戻る</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

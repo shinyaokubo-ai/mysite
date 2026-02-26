@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    /* --- ページヘッダー --- */
+    .page-header {
+        padding-top: 150px; padding-bottom: 80px; text-align: center;
+        background: linear-gradient(to bottom, #050505, #0a0a0a);
+    }
+    .page-title {
+        font-family: 'Montserrat', sans-serif; font-size: 2.5rem;
+        font-weight: 900; letter-spacing: 0.2em; margin-bottom: 20px; color: #fff;
+    }
+    .page-desc {
+        color: #888; font-size: 0.9rem; line-height: 2; max-width: 800px;
+        margin: 0 auto; font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    /* --- ブログリストセクション --- */
+    .blog-section {
+        padding: 80px 0 120px;
+        background: #050505;
+        min-height: 60vh; /* 記事が少なくてもフッターが浮かないように */
+    }
+
+    /* グリッドレイアウト（PCは3列） */
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+    }
+
+    /* カードデザイン */
+    .blog-card {
+        background: #111;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #222;
+        transition: 0.3s;
+        display: block;
+        text-decoration: none;
+    }
+    .blog-card:hover {
+        transform: translateY(-5px);
+        border-color: #c5a059;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* 画像エリア */
+    .blog-img-wrap {
+        width: 100%;
+        height: 220px; /* PCでの高さ */
+        overflow: hidden;
+        background: #000;
+        position: relative;
+    }
+    .blog-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s;
+    }
+    .blog-card:hover .blog-img-wrap img {
+        transform: scale(1.1);
+    }
+
+    /* 本文エリア */
+    .blog-body {
+        padding: 25px;
+    }
+    .blog-date {
+        color: #c5a059;
+        font-size: 0.8rem;
+        display: block;
+        margin-bottom: 10px;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .blog-title {
+        font-size: 1.1rem;
+        color: #fff;
+        margin: 0;
+        line-height: 1.6;
+        font-family: 'Noto Sans JP', sans-serif;
+        font-weight: bold;
+    }
+    
+    /* 記事がない時のメッセージ */
+    .no-post {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: #666;
+        padding: 50px;
+    }
+
+    /* ▼▼▼ スマホ用設定（ここを調整しました！） ▼▼▼ */
+    @media (max-width: 768px) {
+        .page-header { padding-top: 120px; padding-bottom: 50px; }
+        .page-title { font-size: 2rem; }
+        
+        .blog-section { padding: 40px 0 80px; }
+
+        /* 1列ではなく「2列」にしてスッキリさせる */
+        .blog-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px; /* 間隔を狭める */
+        }
+
+        /* 画像の高さを低くして縦長になりすぎないようにする */
+        .blog-img-wrap {
+            height: 120px; 
+        }
+
+        /* 文字サイズをスマホ向けに小さく */
+        .blog-body { padding: 15px; }
+        .blog-title { font-size: 0.85rem; line-height: 1.4; }
+        .blog-date { font-size: 0.7rem; margin-bottom: 5px; }
+    }
+</style>
+
+<section class="page-header fade-in">
+    <div class="page-header" style="padding: 80px 0 60px; text-align: center; border-bottom: 1px solid #333; margin-bottom: 50px;">
+    <h1 style="font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; font-size: 3.5rem; color: #c5a059; margin: 0;">
+        Journal & Info
+    </h1>
+    <p style="color: #f8f9fa; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.15em; margin-top: 20px;">
+        ブログ・お知らせ
+    </p>
+</div>
+</section>
+
+<section class="blog-section fade-in-up">
+    <div class="container">
+        <div class="blog-grid">
+            {% for post in posts %}
+                <a href="{% url 'post_detail' post.id %}" class="blog-card">
+                    <div class="blog-img-wrap">
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/600x400/222/555?text=No+Image" alt="No Image">
+                        {% endif %}
+                    </div>
+                    <div class="blog-body">
+                        <span class="blog-date">{{ post.created_at|date:"Y.m.d" }}</span>
+                        <h3 class="blog-title">{{ post.title }}</h3>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="no-post">
+                    <p>現在、記事は投稿されていません。</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
