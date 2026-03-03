@@ -86,7 +86,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
     login_url = '/admin/login/'
 
-@login_required
+
 def post_create(request):
     if request.method == 'POST':
         Post.objects.create(

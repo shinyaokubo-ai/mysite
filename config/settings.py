@@ -134,3 +134,9 @@ RECIPIENT_LIST = ['info@explorer13.jp']
 
 # ローカルテスト用：実際のメールは飛ばさず、コンソールに内容を表示する
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# --- ここから追記 ---
+import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '') # プロジェクト直下をメディアの基準にする
+# --- ここまで ---

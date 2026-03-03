@@ -1,4 +1,4 @@
-asgiref==3.11.0
+giasgiref==3.11.0
 attrs==25.4.0
 beautifulsoup4==4.14.2
 certifi==2025.10.5
