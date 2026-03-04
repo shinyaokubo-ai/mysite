@@ -70,8 +70,8 @@ def contact(request):
         send_mail(
             f"問い合わせ: {request.POST.get('name')}",
             request.POST.get('message'),
-            'admin@example.com',
-            ['admin@example.com']
+            'ysproject56722020@gmail.com',
+            ['ysproject56722020@gmail.com']
         )
         return render(request, 'contact.html', {'success': True})
     return render(request, 'contact.html')
