@@ -14,7 +14,7 @@ urlpatterns = [
 ]
 
 
-path('google572018d7ddc4e357.html', TemplateView.as_view(template_name='googleXXXXXXXX.html', content_type='text/html')),
+path('google572018d7ddc4e357.html', TemplateView.as_view(template_name='google572018d7ddc4e357.html', content_type='text/html')),
 
 # 画像を表示するための設定（開発モード用）
 if settings.DEBUG:
