@@ -73,6 +73,34 @@ def contact(request):
             'ysproject56722020@gmail.com',
             ['ysproject56722020@gmail.com']
         )
+
+# --- ここから追加：お客様への自動返信メール ---
+        user_name = request.POST.get('name')
+        user_email = request.POST.get('email')
+        user_message = request.POST.get('message')
+
+        if user_email:  # 念のため、メールアドレスが入力されているか確認
+            auto_reply_subject = '【自動返信】お問い合わせありがとうございます'
+            auto_reply_message = f'''{user_name} 様
+
+この度は、お問い合わせいただき誠にありがとうございます。
+以下の内容で承りました。担当者より改めてご連絡いたします。
+
+-----------------------------------------
+【お問い合わせ内容】
+{user_message}
+-----------------------------------------
+※このメールは自動送信システムから送信されています。
+'''
+        send_mail(
+            auto_reply_subject,
+            auto_reply_message,
+            'ysproject56722020@gmail.com',  # 今の送信元（本番時に info@... に変更）
+            [user_email],  # お客様のメールアドレス宛
+            fail_silently=False,
+            )
+        # --- ここまで追加 ---
+
         return render(request, 'contact.html', {'success': True})
     return render(request, 'contact.html')
 
