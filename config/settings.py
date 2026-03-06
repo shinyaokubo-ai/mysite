@@ -143,10 +143,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '') # プロジェクト直下をメディ�
 import os
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# Email Settings (Gmail)
+
+# config/settings.py
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'bs083-310.domainserver.ne.jp'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ysproject56722020@gmail.com'
-EMAIL_HOST_PASSWORD = 'cqho eykc vuog hehk'
+EMAIL_USE_TLS = True  # ラディックスさんの587番ポートは通常これを使用します
+EMAIL_HOST_USER = 'info@explorer13.jp'
+EMAIL_HOST_PASSWORD = 'Yxf5!3Q@'
+DEFAULT_FROM_EMAIL = 'info@explorer13.jp'
