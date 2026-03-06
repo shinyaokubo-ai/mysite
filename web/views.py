@@ -67,19 +67,19 @@ class PostDetailView(DetailView):
 
 def contact(request):
     if request.method == 'POST':
+        # 1. 管理者（大久保様側）への通知メール
         send_mail(
             f"問い合わせ: {request.POST.get('name')}",
             request.POST.get('message'),
-            'ysproject56722020@gmail.com',
-            ['ysproject56722020@gmail.com']
+            'info@explorer13.jp',          # 差出人を変更
+            ['info@explorer13.jp']           # 受信先をGmailから変更
         )
 
-# --- ここから追加：お客様への自動返信メール ---
         user_name = request.POST.get('name')
         user_email = request.POST.get('email')
         user_message = request.POST.get('message')
 
-        if user_email:  # 念のため、メールアドレスが入力されているか確認
+        if user_email:
             auto_reply_subject = '【自動返信】お問い合わせありがとうございます'
             auto_reply_message = f'''{user_name} 様
 
@@ -92,17 +92,25 @@ def contact(request):
 -----------------------------------------
 ※このメールは自動送信システムから送信されています。
 '''
-        send_mail(
-            auto_reply_subject,
-            auto_reply_message,
-            'ysproject56722020@gmail.com',  # 今の送信元（本番時に info@... に変更）
-            [user_email],  # お客様のメールアドレス宛
-            fail_silently=False,
+            # 2. お客様への自動返信メール
+            send_mail(
+                auto_reply_subject,
+                auto_reply_message,
+                'info@explorer13.jp',      # 差出人を変更
+                [user_email],
+                fail_silently=False,
             )
-        # --- ここまで追加 ---
 
         return render(request, 'contact.html', {'success': True})
     return render(request, 'contact.html')
+
+
+
+
+
+
+
+
 
 class CompanyView(TemplateView):
     template_name = 'company.html'
