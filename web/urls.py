@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     # --- 表側のページ ---
@@ -29,5 +30,7 @@ urlpatterns = [
     # --- API（Vue.jsがデータを取得するための専用URL） ---
     path('api/posts/', views.api_posts, name='api_posts'),
     path('api/posts/delete/<int:pk>/', views.api_post_delete, name='api_post_delete'),
+
+    path('privacy-policy/', TemplateView.as_view(template_name='privacy_policy.html'), name='privacy_policy'),
     
 ]
