@@ -196,3 +196,8 @@ def api_post_delete(request, pk):
         except:
             return JsonResponse({'success': False})
     return JsonResponse({'success': False})
+
+
+def test_design(request):
+    # 社長様確認用のテストページ（隠し部屋）を返す
+    return render(request, 'index_test.html')

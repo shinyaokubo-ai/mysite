@@ -32,5 +32,7 @@ urlpatterns = [
     path('api/posts/delete/<int:pk>/', views.api_post_delete, name='api_post_delete'),
 
     path('privacy-policy/', TemplateView.as_view(template_name='privacy_policy.html'), name='privacy_policy'),
+
+    path('test1/', views.test_design, name='test_design'),
     
 ]
