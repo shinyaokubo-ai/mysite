@@ -174,15 +174,17 @@
 
 /* 背景画像と全体の枠組み */
 .test-hero-section {
-    /* ここに背景にしたい画像のファイル名を入れます */
     background-image: url("{% static 'images/top_logo.jpg' %}");
-    background-size: cover; /* 画面いっぱいに広げる */
-    background-position: center; /* 画像の真ん中を表示 */
-    height: 100vh; /* 画面の高さをスマホ/PCの画面ピッタリ(100%)にする */
+    background-size: cover; 
+    background-position: center; 
+    height: 100vh; 
     position: relative;
+
+    /* ↓ここから下を変更します！↓ */
     display: flex;
-    align-items: center; /* 縦の真ん中に配置 */
-    justify-content: center; /* 横の真ん中に配置 */
+    justify-content: center; /* 横方向は真ん中のまま */
+    align-items: flex-start; /* 縦方向を「上揃え」に変更！ */
+    padding-top: 25vh; /* 上から画面の25%分だけ下に押し下げる */
 }
 
 /* 背景画像を少し暗くして、文字を目立たせる黒い半透明フィルター */
