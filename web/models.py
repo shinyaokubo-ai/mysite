@@ -1,5 +1,7 @@
 from django.db import models
+from django.utils import timezone # 🌟 新しく追加（Contactモデルの日時記録用）
 
+# --- 既存のPostモデル（そのままです） ---
 class Post(models.Model):
     CATEGORY_CHOICES = [
         ('Blog', 'Blog'),
@@ -21,3 +23,21 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# --- 🌟 新規追加：お問い合わせ保存用のモデル（データベースの箱） ---
+class Contact(models.Model):
+    name = models.CharField('お名前', max_length=100)
+    email = models.EmailField('メールアドレス')
+    phone = models.CharField('電話番号', max_length=20) # 必須設定
+    car_model = models.CharField('車種名', max_length=100)
+    car_color = models.CharField('年式/色', max_length=100, blank=True, null=True)
+    message = models.TextField('ご相談内容')
+    created_at = models.DateTimeField('送信日時', default=timezone.now)
+
+    def __str__(self):
+        return f"{self.name}様からの問い合わせ ({self.created_at.strftime('%Y-%m-%d %H:%M')})"
+
+    class Meta:
+        verbose_name = 'お問い合わせ'
+        verbose_name_plural = 'お問い合わせ一覧'

@@ -2,8 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, DetailView
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post
-from django.core.mail import send_mail, EmailMessage # 🌟 EmailMessage を追加！
+from .models import Post, Contact # 🌟 Contactをここに追加！
+from django.core.mail import send_mail, EmailMessage
 from django.contrib.auth.decorators import login_required
 
 # --- 1. 表側のページ（一般の人が見る画面） ---
@@ -53,13 +53,11 @@ class PostDetailView(DetailView):
         
         # 本文中の [video] を動画プレイヤー(HTMLタグ)に置き換える処理
         if post.image and (".mp4" in post.image.url.lower() or ".mov" in post.image.url.lower()):
-            # ▼ ここが最終修正版の動画タグです（preload="auto" などを追加） ▼
             video_tag = f'<video src="{post.image.url}" class="video-player" controls preload="auto" playsinline></video>'
             
             if "[video]" in post.content:
                 post.content = post.content.replace("[video]", video_tag)
             else:
-                # [video] タグがない場合は、一番下に自動で追加
                 post.content += f"<br><br>{video_tag}"
         
         context['post'] = post
@@ -67,7 +65,7 @@ class PostDetailView(DetailView):
 
 def contact(request):
     if request.method == 'POST':
-        # 🌟 フォームから送られてきたデータをすべて受け取る
+        # フォームから送られてきたデータをすべて受け取る
         user_name = request.POST.get('name')
         user_email = request.POST.get('email')
         user_phone = request.POST.get('phone')
@@ -75,7 +73,17 @@ def contact(request):
         car_color = request.POST.get('car_color')
         user_message = request.POST.get('message')
 
-        # 🌟 1. 管理者（社長様）に届くメールの「本文」を綺麗に作る
+        # 🌟 0. データベース（Neon）に保存する（これが最強のバックアップ！）
+        Contact.objects.create(
+            name=user_name,
+            email=user_email,
+            phone=user_phone,
+            car_model=car_model,
+            car_color=car_color,
+            message=user_message
+        )
+
+        # 1. 管理者（社長様）に届くメールの「本文」を綺麗に作る
         admin_body = f"""ホームページから新しいお問い合わせがありました。
 
 【お名前】 {user_name}
@@ -88,17 +96,17 @@ def contact(request):
 {user_message}
 """
         
-        # 🌟 2. EmailMessageを使って、管理者へ送信（返信先マジック付き）
+        # 2. EmailMessageを使って、管理者へ送信（返信先マジック付き）
         admin_email = EmailMessage(
             subject=f"【HP問合せ】{user_name}様より",
             body=admin_body,
             from_email='info@explorer13.jp',
             to=['info@explorer13.jp'],
-            reply_to=[user_email]  # ← 【超重要】社長が「返信」を押すと、宛先が自動でお客様のメアドになります！
+            reply_to=[user_email]
         )
         admin_email.send()
 
-        # 3. お客様への自動返信メール（ここは元のまま）
+        # 3. お客様への自動返信メール
         if user_email:
             auto_reply_subject = '【自動返信】お問い合わせありがとうございます'
             auto_reply_message = f'''{user_name} 様\n\nこの度は、お問い合わせいただき誠にありがとうございます。\n以下の内容で承りました。担当者より改めてご連絡いたします。\n\n-----------------------------------------\n【お問い合わせ内容】\n{user_message}\n-----------------------------------------\n※このメールは自動送信システムから送信されています。\n'''
@@ -114,17 +122,14 @@ def contact(request):
         return render(request, 'contact.html', {'success': True})
     return render(request, 'contact.html')
 
-
 class CompanyView(TemplateView):
     template_name = 'company.html'
-
 
 # --- 2. 裏側の管理ページ（大久保様が操作する画面） ---
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
     login_url = '/admin/login/'
-
 
 def post_create(request):
     if request.method == 'POST':
@@ -134,8 +139,8 @@ def post_create(request):
             content=request.POST.get('content'),
             tag=request.POST.get('tag'),
             status=request.POST.get('status'),
-            thumbnail=request.FILES.get('thumbnail'), # サムネイル画像
-            image=request.FILES.get('image')          # メインメディア（画像/動画）
+            thumbnail=request.FILES.get('thumbnail'),
+            image=request.FILES.get('image')
         )
         return redirect('dashboard')
     return render(request, 'post_edit.html', {'post': None})
@@ -172,7 +177,6 @@ def api_posts(request):
     posts = Post.objects.all().order_by('-created_at')
     data = []
     for post in posts:
-        # 管理画面の一覧で表示する画像を選択
         if post.thumbnail:
             display_img = post.thumbnail.url
         elif post.image and not (".mp4" in post.image.url.lower() or ".mov" in post.image.url.lower()):
@@ -200,7 +204,5 @@ def api_post_delete(request, pk):
             return JsonResponse({'success': False})
     return JsonResponse({'success': False})
 
-
 def test_design(request):
-    # 社長様確認用のテストページ（隠し部屋）を返す
-    return render(request, 'index_test.html') # 🌟 最後のカッコをひっそりと修正しました
+    return render(request, 'index_test.html')
