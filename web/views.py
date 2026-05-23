@@ -1,8 +1,9 @@
+import re # 🌟 スパム対策（ひらがなチェック）用にこれを追加しています
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, DetailView
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Contact # 🌟 Contactをここに追加！
+from .models import Post, Contact
 from django.core.mail import send_mail, EmailMessage
 from django.contrib.auth.decorators import login_required
 
@@ -12,7 +13,6 @@ class IndexView(TemplateView):
     template_name = 'index.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # 施工事例(Works)とブログ(Blog)の最新3件をトップページに送る
         context['works_posts'] = Post.objects.filter(category='Works', status='Published').order_by('-created_at')[:3]
         context['blog_posts'] = Post.objects.filter(category='Blog', status='Published').order_by('-created_at')[:3]
         return context
@@ -51,7 +51,6 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
         
-        # 本文中の [video] を動画プレイヤー(HTMLタグ)に置き換える処理
         if post.image and (".mp4" in post.image.url.lower() or ".mov" in post.image.url.lower()):
             video_tag = f'<video src="{post.image.url}" class="video-player" controls preload="auto" playsinline></video>'
             
@@ -65,7 +64,6 @@ class PostDetailView(DetailView):
 
 def contact(request):
     if request.method == 'POST':
-        # フォームから送られてきたデータをすべて受け取る
         user_name = request.POST.get('name')
         user_email = request.POST.get('email')
         user_phone = request.POST.get('phone')
@@ -73,7 +71,13 @@ def contact(request):
         car_color = request.POST.get('car_color')
         user_message = request.POST.get('message')
 
-        # 🌟 0. データベース（Neon）に保存する（これが最強のバックアップ！）
+        # 🌟【スパム対策】本文に「ひらがな」が1文字も含まれていない場合は拒否する
+        if not re.search(r'[あ-ん]', user_message):
+            return render(request, 'contact.html', {
+                'error': 'お問い合わせの送信に失敗しました。内容を日本語で入力してください。'
+            })
+
+        # 0. データベース（Neon）に保存する
         Contact.objects.create(
             name=user_name,
             email=user_email,
@@ -125,7 +129,7 @@ def contact(request):
 class CompanyView(TemplateView):
     template_name = 'company.html'
 
-# --- 2. 裏側の管理ページ（大久保様が操作する画面） ---
+# --- 2. 裏側の管理ページ（操作する画面） ---
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
