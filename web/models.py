@@ -41,3 +41,24 @@ class Contact(models.Model):
     class Meta:
         verbose_name = 'お問い合わせ'
         verbose_name_plural = 'お問い合わせ一覧'
+
+
+
+class SystemSetting(models.Model):
+    is_emergency_form = models.BooleanField(
+        default=False, 
+        verbose_name="【緊急時】お問い合わせをGoogleフォームに切り替える"
+    )
+    google_form_url = models.URLField(
+        blank=True, 
+        null=True, 
+        verbose_name="GoogleフォームのURL",
+        help_text="※切り替える場合は、ここにGoogleフォームのリンクを入力してください"
+    )
+
+    class Meta:
+        verbose_name = 'システム設定'
+        verbose_name_plural = 'システム設定'
+
+    def __str__(self):
+        return "システム設定（※ここから緊急切り替えが可能です）"

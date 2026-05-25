@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Contact # 🌟 Contactを追加
+from .models import Post, Contact,SystemSetting # 🌟 Contactを追加
 
 # 管理画面にPostモデルを登録する
 @admin.register(Post)
@@ -18,3 +18,4 @@ class PostAdmin(admin.ModelAdmin):
 class ContactAdmin(admin.ModelAdmin): # ← ここを静かに修正しました！
     list_display = ('created_at', 'name', 'email', 'car_model') # 一覧に出す項目
     search_fields = ('name', 'email', 'car_model') # 検索機能
+    admin.site.register(SystemSetting)

@@ -49,36 +49,30 @@
     .form-control {
         width: 100%;
         padding: 15px;
-        /* 背景を少しだけ明るい黒にして、枠線との境界をはっきりさせる */
         background-color: #1a1a1a !important; 
         border: 1px solid #444;
-        /* 文字色を「真っ白」に強制 */
         color: #ffffff !important;
         font-family: 'Noto Sans JP', sans-serif;
-        font-size: 1.1rem; /* 文字を少し大きく */
+        font-size: 1.1rem;
         border-radius: 4px;
         transition: 0.3s;
-        /* ブラウザのデフォルトスタイルを打ち消す */
         appearance: none; 
         -webkit-appearance: none;
     }
 
-    /* フォーカス時（入力しようとした時） */
     .form-control:focus {
         outline: none;
-        border-color: #c5a059; /* 金色の枠線 */
-        background-color: #000 !important; /* 背景を黒く引き締める */
+        border-color: #c5a059;
+        background-color: #000 !important;
         color: #fff !important;
-        box-shadow: 0 0 10px rgba(197, 160, 89, 0.3); /* 金色の光 */
+        box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
     }
 
-    /* プレースホルダー（例：〜〜の部分）の色調整 */
     .form-control::placeholder {
-        color: #666; /* 読みやすいグレー */
+        color: #666;
         opacity: 1;
     }
 
-    /* オートフィル（自動入力）対策：背景が水色になるのを防ぐ */
     .form-control:-webkit-autofill,
     .form-control:-webkit-autofill:hover,
     .form-control:-webkit-autofill:focus,
@@ -147,50 +141,68 @@
                 </div>
             
             {% else %}
-                <form action="" method="post">
-                    {% csrf_token %}
-                    
-                    <div class="form-group">
-                        <label class="form-label">お名前<span>必須</span></label>
-                        <input type="text" name="name" class="form-control" placeholder="例：山田 太郎">
+            
+                {% if setting.is_emergency_form %}
+                    <div class="emergency-form-container" style="text-align: center; padding: 60px 0;">
+                        <p style="color: #c5a059; font-weight: bold; font-size: 1.2rem; margin-bottom: 30px;">
+                            現在、システムメンテナンス中のため<br>臨時のお問い合わせフォームを設置しております。
+                        </p>
+                        {% if setting.google_form_url %}
+                            <a href="{{ setting.google_form_url }}" target="_blank" class="btn-submit" style="text-decoration: none; display: inline-block;">
+                                臨時フォーム（Google）を開く
+                            </a>
+                        {% else %}
+                            <p style="color: #fff; font-size: 1rem;">※現在、お問い合わせフォームの準備中です。<br>お急ぎの場合はお電話（048-884-8580）にてご連絡ください。</p>
+                        {% endif %}
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">メールアドレス<span>必須</span></label>
-                        <input type="email" name="email" class="form-control" placeholder="例：info@example.com">
-                    </div>
-
-                    
-
-                    <div class="form-group">
-                        <label class="form-label">電話番号<span>必須</span></label>
-                        <input type="tel" name="phone" class="form-control" placeholder="例：090-1234-5678" required>
-                    </div>
-
-
-
-
-                    <div class="row" style="display:flex; gap:20px; flex-wrap:wrap;">
-                        <div class="form-group" style="flex:1; min-width:200px;">
-                            <label class="form-label">車種名<span>必須</span></label>
-                            <input type="text" name="car_model" class="form-control" placeholder="例：ポルシェ 911 カレラ">
+                {% else %}
+                    {% if error %}
+                        <div style="background-color: #ff4444; color: white; padding: 15px; text-align: center; border-radius: 4px; margin-bottom: 30px; font-weight: bold;">
+                            {{ error }}
                         </div>
-                        <div class="form-group" style="flex:1; min-width:200px;">
-                            <label class="form-label">年式 / 色<span>任意</span></label>
-                            <input type="text" name="car_color" class="form-control" placeholder="例：2023年式 / 黒">
+                    {% endif %}
+
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label class="form-label">お名前<span>必須</span></label>
+                            <input type="text" name="name" class="form-control" placeholder="例：山田 太郎" required>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="form-label">ご相談内容<span>必須</span></label>
-                        <textarea name="message" class="form-control" placeholder="ご希望のメニューや、現在のお車の状態（キズや汚れなど）をご記入ください。"></textarea>
-                    </div>
+                        <div class="form-group">
+                            <label class="form-label">メールアドレス<span>必須</span></label>
+                            <input type="email" name="email" class="form-control" placeholder="例：info@example.com" required>
+                        </div>
 
-                    <div class="btn-submit-area">
-                        <button type="submit" class="btn-submit">送信する</button>
-                    </div>
-                </form>
-            {% endif %}
+                        <div class="form-group">
+                            <label class="form-label">電話番号<span>必須</span></label>
+                            <input type="tel" name="phone" class="form-control" placeholder="例：090-1234-5678" required>
+                        </div>
+
+                        <div class="row" style="display:flex; gap:20px; flex-wrap:wrap;">
+                            <div class="form-group" style="flex:1; min-width:200px;">
+                                <label class="form-label">車種名<span>必須</span></label>
+                                <input type="text" name="car_model" class="form-control" placeholder="例：ポルシェ 911 カレラ">
+                            </div>
+                            <div class="form-group" style="flex:1; min-width:200px;">
+                                <label class="form-label">年式 / 色<span>任意</span></label>
+                                <input type="text" name="car_color" class="form-control" placeholder="例：2023年式 / 黒">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">ご相談内容<span>必須</span></label>
+                            <textarea name="message" class="form-control" placeholder="ご希望のメニューや、現在のお車の状態（キズや汚れなど）をご記入ください。"></textarea>
+                        </div>
+
+                        <div class="btn-submit-area">
+                            <button type="submit" class="btn-submit">送信する</button>
+                        </div>
+                    </form>
+                {% endif %}
+                {% endif %}
 
             <div class="shop-info">
                 <h3>EXPLORER</h3>
@@ -200,8 +212,7 @@
                         <span class="info-value">〒349-0141<br>埼玉県蓮田市西新宿2-137</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">TEL / OPEN
-                        </span>
+                        <span class="info-label">TEL / OPEN</span>
                         <span class="info-value"><br>048-884-8580 / 10:00 - 19:00 (不定休)</span>
                     </div>
                 </div>

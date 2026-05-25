@@ -1,11 +1,13 @@
-import re # 🌟 スパム対策（ひらがなチェック）用にこれを追加しています
+import re # 🌟スパム対策用
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, DetailView
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Contact
 from django.core.mail import send_mail, EmailMessage
 from django.contrib.auth.decorators import login_required
+
+# 🌟 SystemSetting を追加し、綺麗にまとめました
+from .models import Post, Contact, SystemSetting
 
 # --- 1. 表側のページ（一般の人が見る画面） ---
 
@@ -13,6 +15,7 @@ class IndexView(TemplateView):
     template_name = 'index.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # 施工事例(Works)とブログ(Blog)の最新3件をトップページに送る
         context['works_posts'] = Post.objects.filter(category='Works', status='Published').order_by('-created_at')[:3]
         context['blog_posts'] = Post.objects.filter(category='Blog', status='Published').order_by('-created_at')[:3]
         return context
@@ -51,6 +54,7 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
         
+        # 本文中の [video] を動画プレイヤー(HTMLタグ)に置き換える処理
         if post.image and (".mp4" in post.image.url.lower() or ".mov" in post.image.url.lower()):
             video_tag = f'<video src="{post.image.url}" class="video-player" controls preload="auto" playsinline></video>'
             
@@ -63,21 +67,30 @@ class PostDetailView(DetailView):
         return context
 
 def contact(request):
+    # 🌟 システム設定をデータベースから取得（なければ自動で作る）
+    setting, created = SystemSetting.objects.get_or_create(id=1)
+
+    # 🌟 緊急モードがONの場合は、送信処理をすべてスキップして画面を表示する
+    if setting.is_emergency_form:
+        return render(request, 'contact.html', {'setting': setting})
+
     if request.method == 'POST':
+        # フォームから送られてきたデータをすべて受け取る
         user_name = request.POST.get('name')
         user_email = request.POST.get('email')
         user_phone = request.POST.get('phone')
         car_model = request.POST.get('car_model')
         car_color = request.POST.get('car_color')
-        user_message = request.POST.get('message')
+        user_message = request.POST.get('message') or ""
 
-        # 🌟【スパム対策】本文に「ひらがな」が1文字も含まれていない場合は拒否する
-        if not re.search(r'[あ-ん]', user_message):
+        # 🌟【スパム対策】消えていたコードを復活させています！
+        if not re.search(r'[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]', user_message):
             return render(request, 'contact.html', {
-                'error': 'お問い合わせの送信に失敗しました。内容を日本語で入力してください。'
+                'error': 'お問い合わせの送信に失敗しました。内容を日本語で入力してください。',
+                'setting': setting
             })
 
-        # 0. データベース（Neon）に保存する
+        # 🌟 0. データベース（Neon）に保存する（これが最強のバックアップ！）
         Contact.objects.create(
             name=user_name,
             email=user_email,
@@ -123,8 +136,9 @@ def contact(request):
                 fail_silently=False,
             )
 
-        return render(request, 'contact.html', {'success': True})
-    return render(request, 'contact.html')
+        return render(request, 'contact.html', {'success': True, 'setting': setting})
+    
+    return render(request, 'contact.html', {'setting': setting})
 
 class CompanyView(TemplateView):
     template_name = 'company.html'
