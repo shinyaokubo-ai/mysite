@@ -8,35 +8,26 @@
     section { margin-bottom: 160px; }
 
     /* --- メインビジュアル --- */
-    
-/* --- メインビジュアル --- */
     .hero-section {
         position: relative; width: 100%; height: 100vh;
         display: flex; align-items: center; justify-content: center;
-        /* ▼ ここを新しい画像（hero_bg.jpg）に変更しました ▼ */
-        background: url('{% static "images/hero_bg.png" %}') no-repeat center center/cover;
+        background: url('{% static "images/shop_outside.jpg" %}') no-repeat center center/cover;
         margin-bottom: 160px;
     }
     .hero-overlay {
         position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-        /* ▼ 文字を読みやすくするため、少しだけ暗めのフィルター（0.6）に変更 ▼ */
         background: rgba(0, 0, 0, 0.6); z-index: 1;
         pointer-events: none;
     }
     .hero-content { position: relative; z-index: 2; text-align: center; color: #fff; }
     .hero-title {
-        /* ▼ 書体をCinzelに変更、サイズも少し調整 ▼ */
         font-family: 'Cinzel', serif; font-size: 5.5rem; font-weight: 900;
         letter-spacing: 0.1em; margin: 0; text-shadow: 0 10px 30px rgba(0,0,0,0.8);
     }
     .hero-subtitle {
-    font-family: 'Noto Serif JP', serif; font-size: 1.2rem; color: #c5a059;
-    margin-top: 15px; letter-spacing: 0.3em; text-transform: uppercase;
-}
-
-
-
-
+        font-family: 'Noto Serif JP', serif; font-size: 1.2rem; color: #c5a059;
+        margin-top: 15px; letter-spacing: 0.3em; text-transform: uppercase;
+    }
 
     /* --- SERVICE --- */
     .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px; }
@@ -88,24 +79,27 @@
         position: relative;
         padding: 140px 0;
         text-align: center;
-        background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2304&auto=format&fit=crop') no-repeat center center/cover;
+        /* ▼ 外部URLから、黒フィルター（75%）を重ねた新しい待合スペースの画像（contact_bg.jpg）に変更しました ▼ */
+        background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('{% static "images/contact_bg.jpg" %}') no-repeat center center/cover;
         margin-bottom: 0;
     }
     .contact-overlay {
         position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(255, 255, 255, 0.1); 
+        background: rgba(255, 255, 255, 0.05); /* 画像の質感を生かすためフィルターを極薄に調整 */
         z-index: 1;
-        pointer-events: none; /* クリックを邪魔しない設定 */
+        pointer-events: none;
     }
     .contact-box {
         position: relative; z-index: 2;
         border: 2px solid #c5a059; padding: 60px;
         max-width: 800px; margin: 0 auto;
-        background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
+        background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(5px);
     }
     .contact-title {
-        font-family: 'Noto Sans JP', sans-serif; font-size: 2.5rem; color: #fff; margin-bottom: 20px;
+        font-family: 'Cinzel', serif !important; /* 他の見出しに合わせてCinzelに変更して統一感アップ */
+        font-size: 2.5rem; color: #fff; margin-bottom: 20px;
         text-shadow: 0 0 20px rgba(0,0,0,0.8);
+        letter-spacing: 0.1em;
     }
     .contact-text { color: #ddd; margin-bottom: 40px; line-height: 2; font-size: 1.1rem; }
     .contact-btn {
@@ -117,29 +111,19 @@
     }
     .contact-btn:hover { background: #fff; transform: translateY(-3px); }
 
-    /* ▼▼▼ スマホ用設定（ブログ2列化を含む最新版） ▼▼▼ */
+    /* スマホ用設定 */
     @media (max-width: 768px) {
         .hero-title { font-size: 3rem; }
-        
-        /* サービスは1列 */
         .service-grid { grid-template-columns: 1fr; }
-        
-        /* 施工事例は2列 */
         .works-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-
-        /* ブログも2列にして見やすくする！ */
-        .blog-grid { 
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px; 
-        }
-        
-        /* 画像の高さをコンパクトに調整 */
+        .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .blog-img-wrap { height: 120px; }
-        
-        /* 文字サイズ調整 */
         .blog-title { font-size: 0.85rem; line-height: 1.4; }
         .blog-date { font-size: 0.7rem; }
         .blog-body { padding: 15px; }
+        .contact-box { padding: 40px 20px; }
+        .contact-title { font-size: 2rem; }
+        .contact-text { font-size: 0.95rem; line-height: 1.8; }
     }
 
     /* --- サービス内容の背景透過カード用 --- */
@@ -162,27 +146,20 @@
     .service-bg-overlay {
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0, 0, 0, 0.75); /* TOPページと同じように暗めの透かしを入れる */
+        background: rgba(0, 0, 0, 0.75);
         z-index: 2;
     }
     .service-bg-content {
         position: relative;
-        z-index: 3; /* 文字を一番手前に持ってくる */
+        z-index: 3;
     }
-
-
-
-
-
-
-
 </style>
 
 <section id="home" class="hero-section">
     <div class="hero-overlay"></div>
     <div class="hero-content fade-in">
         <h1 class="hero-title">EXPLORER</h1>
-        <p class="hero-subtitle">新車　中古車のカーコーティング　お任せください</p>
+        <p class="hero-subtitle">新車 中古車のカーコーティング お任せください</p>
     </div>
 </section>
 
@@ -214,6 +191,7 @@
         </div>
     </div>
 </section>
+
 <section id="works">
     <div class="container">
         <div class="section-header fade-in-up">
@@ -261,7 +239,7 @@
                             {% else %}
                                 <img src="{% static 'images/logo2.jpg' %}" alt="No Image">
                             {% endif %}
-                            </div>
+                        </div>
                         <div class="blog-body">
                             <span class="blog-date">{{ post.created_at|date:"Y.m.d" }}</span>
                             <h3 class="blog-title">{{ post.title }}</h3>
@@ -291,4 +269,3 @@
 </section>
 
 {% endblock %}
-

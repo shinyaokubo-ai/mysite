@@ -8,6 +8,27 @@
     .company-section { padding: 80px 0 160px; }
     .page-title { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 900; color: #c5a059; text-align: center; margin-bottom: 80px; letter-spacing: 0.05em; }
 
+    /* ▼▼▼ 追加：店舗画像のデザイン ▼▼▼ */
+    .company-image-wrapper {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto 60px; /* 下のテーブルとの余白 */
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #333;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .company-image-wrapper img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+    .company-image-wrapper:hover img {
+        transform: scale(1.02); /* マウスを乗せた時にズームさせる演出 */
+    }
+    /* ▲▲▲ ここまで ▲▲▲ */
+
     .company-table { width: 100%; max-width: 800px; margin: 0 auto 80px; border-collapse: collapse; }
     .company-table th, .company-table td { padding: 25px; border-bottom: 1px solid #333; text-align: left; }
     .company-table th { width: 30%; color: #c5a059; font-weight: bold; font-size: 1rem; }
@@ -45,6 +66,9 @@
     <div class="container">
         <h1 class="page-title">COMPANY</h1>
 
+        <div class="company-image-wrapper">
+            <img src="{% static 'images/company_interior.jpg' %}" alt="EXPLORER 店内風景">
+        </div>
         <table class="company-table">
             <tr>
                 <th>会社名</th>
@@ -52,7 +76,7 @@
             </tr>
             <tr>
                 <th>代表</th>
-                <td>芳賀　亮太</td>
+                <td>芳賀 亮太</td>
             </tr>
             <tr>
                 <th>所在地</th>
