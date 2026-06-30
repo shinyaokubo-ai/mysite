@@ -46,6 +46,7 @@ class BlogView(TemplateView):
         context['posts'] = Post.objects.filter(category='Blog', status='Published').order_by('-created_at')
         return context
 
+# 🛠️ 詳細ページ表示の処理（画像サイズを450pxに最適化）
 class PostDetailView(DetailView):
     model = Post
     template_name = 'post_detail.html'
@@ -54,14 +55,26 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
         
-        # 本文中の [video] を動画プレイヤー(HTMLタグ)に置き換える処理
-        if post.image and (".mp4" in post.image.url.lower() or ".mov" in post.image.url.lower()):
-            video_tag = f'<video src="{post.image.url}" class="video-player" controls preload="auto" playsinline></video>'
+        # 🌟 本文中の合言葉をメディア（動画または画像）のHTMLタグに置き換える処理
+        if post.image:
+            url = post.image.url.lower()
             
-            if "[video]" in post.content:
-                post.content = post.content.replace("[video]", video_tag)
+            # 1. 拡張子が動画（mp4, mov, webm）の場合
+            if ".mp4" in url or ".mov" in url or ".webm" in url:
+                media_tag = f'<video src="{post.image.url}" class="video-player" controls preload="auto" playsinline></video>'
+            # 2. 拡張子がそれ以外（jpg, pngなどの画像）の場合（★最大横幅を450pxに制限してスッキリ配置）
             else:
-                post.content += f"<br><br>{video_tag}"
+                media_tag = f'<img src="{post.image.url}" alt="メインメディア" style="max-width: 450px; width: 100%; height: auto; border-radius: 8px; margin: 30px auto; display: block;">'
+            
+            # 本文中の合言葉を置き換える（どれを書いてもOK、タグがなければ自動で末尾に追加）
+            if "[video]" in post.content:
+                post.content = post.content.replace("[video]", media_tag)
+            elif "[image]" in post.content:
+                post.content = post.content.replace("[image]", media_tag)
+            elif "[media]" in post.content:
+                post.content = post.content.replace("[media]", media_tag)
+            else:
+                post.content += f"<br><br>{media_tag}"
         
         context['post'] = post
         return context
